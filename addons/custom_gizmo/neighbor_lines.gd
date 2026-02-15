@@ -31,13 +31,6 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 			lines.push_back(lerp(start,offset,0.1))
 			lines.push_back(lerp(start,offset,0.9))
 			
-			var sphere := SphereMesh.new()
-			sphere.radius = 0.2
-			sphere.height = 0.4
-			sphere.radial_segments = 12
-			sphere.rings = 8
-			
-			gizmo.add_mesh(sphere, get_material("sphere", gizmo), Transform3D(Basis.IDENTITY, lerp(start,offset,0.1)))
 			gizmo.add_lines(lines, get_material("lines", gizmo), false)
 	else:
 		print("HUH")
