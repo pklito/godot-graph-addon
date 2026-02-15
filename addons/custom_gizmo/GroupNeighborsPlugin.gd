@@ -41,52 +41,46 @@ func _exit_tree() -> void:
 		_btn_remove.queue_free()
 		_btn_remove = null
 
+func _update_gizmo_neighbors(i_on_j_action : Callable):
+	var selection := EditorInterface.get_selection()
+	var nodes: Array = selection.get_selected_nodes()
+	var is_location = func (x): return x is Location
+	var location_nodes : Array[Location] = []
+	location_nodes.assign(nodes.filter(is_location))
+		
+	if location_nodes.is_empty():
+		printerr("Selection somehow doesn't have Location nodes")
+		return
+		
+	for i in range(0,location_nodes.size()):
+		for j in range(i,location_nodes.size()):
+			i_on_j_action.call(location_nodes, i, j)
+			i_on_j_action.call(location_nodes, j, i)
+	
+	for node in location_nodes:
+		node.update_gizmos()
+	
 
 func _on_pressed() -> void:
-	var selection := EditorInterface.get_selection()
-	var nodes: Array = selection.get_selected_nodes()
-	var is_location = func (x): return x is Location
-	var location_nodes : Array = nodes.filter(is_location)
-		
-	if location_nodes.is_empty():
-		printerr("Selection somehow doesn't have Location nodes")
-		return
-		
-	for i in range(0,location_nodes.size()):
-		for j in range(i,location_nodes.size()):
-			var node_i : Location = location_nodes[i]
-			var node_j : Location = location_nodes[j]
-			if node_i not in node_j.neighbors:
-				node_j.neighbors.append(node_i)
-			if node_j not in node_i.neighbors:
-				node_i.neighbors.append(node_j)
+	var on_press_action = func(location_nodes: Array[Location], i : int, j : int): 
+		var node_i : Location = location_nodes[i]
+		var node_j : Location = location_nodes[j]
+		if node_i not in node_j.neighbors:
+			node_j.neighbors.append(node_i)
 	
-	
+	_update_gizmo_neighbors(on_press_action)
 
-		
+
 func _on_pressed_disconnect() -> void:
-	var selection := EditorInterface.get_selection()
-	var nodes: Array = selection.get_selected_nodes()
-	var is_location = func (x): return x is Location
-	var location_nodes : Array = nodes.filter(is_location)
-		
-	if location_nodes.is_empty():
-		printerr("Selection somehow doesn't have Location nodes")
-		return
+	var on_press_action = func(location_nodes: Array[Location], i : int, j : int): 
+		# Remove eachother as neighbors
+		var node_i : Location = location_nodes[i]
+		var node_j : Location = location_nodes[j]
+		var j_loc = node_i.neighbors.find(node_j)
+		if j_loc != -1: node_i.neighbors.remove_at(j_loc)
 	
-	for i in range(0,location_nodes.size()):
-		for j in range(i,location_nodes.size()):
-			# Remove eachother as neighbors
-			var node_i : Location = location_nodes[i]
-			var node_j : Location = location_nodes[j]
-			var j_loc = node_i.neighbors.find(node_j)
-			var i_loc = node_j.neighbors.find(node_i)
-			if j_loc != -1: node_i.neighbors.remove_at(j_loc)
-			if i_loc != -1: node_j.neighbors.remove_at(i_loc)
-			
-			
-		
-		
+	_update_gizmo_neighbors(on_press_action)
+
 
 func _selection_changed():
 	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()

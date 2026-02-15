@@ -6,31 +6,27 @@
 
 [node name="Grid" type="Node3D" parent="." unique_id=986878862]
 
-[node name="main" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
+[node name="main" type="Node3D" parent="Grid" unique_id=1254603548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0005264282, 0, -0.008610249)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1655244, 0, 2.5291052)
+[node name="main2" type="Node3D" parent="Grid" unique_id=1090941063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.520495)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1004002, -0.39055037, 2.8142679)
+[node name="l1" type="Node3D" parent="Grid" unique_id=2106091860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0740263, 0.5008557, 2.8056576)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0999768, 2.3841858e-07, -0.01271522)
+[node name="l2" type="Node3D" parent="Grid" unique_id=1591604365]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994503, 2.3841858e-07, -0.021325469)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="l3" type="Node3D" parent="Grid" unique_id=158473313 node_paths=PackedStringArray("neighbors")]
+[node name="l3" type="Node3D" parent="Grid" unique_id=158473313]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07141173, 0, -1.7161691)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
