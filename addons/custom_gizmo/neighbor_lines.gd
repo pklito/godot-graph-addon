@@ -24,13 +24,25 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 
 	
 	if node3d is Location:
+		var lines = PackedVector3Array()
+		
 		for neighbor : Location in node3d.neighbors:
-			var lines = PackedVector3Array()
 			var offset := neighbor.position - node3d.position
 			var start := Vector3(0, 0.0, 0)
-			lines.push_back(lerp(start,offset,0.1))
-			lines.push_back(lerp(start,offset,0.9))
+			lines.push_back(lerp(start,offset,0.2))
+			lines.push_back(lerp(start,offset,0.8))
+			var s = 0.2
+			var count = 5
+			var gap_length = 0.02
+			var total = 0.2
+			var line_length = total / count
+			for i in range(0,count):
+				lines.push_back(lerp(start,offset,s - gap_length - i * line_length ))
+				lines.push_back(lerp(start,offset,s - (i + 1) * line_length ))
+				
+				
+				
 			
-			gizmo.add_lines(lines, get_material("lines", gizmo), false)
+		gizmo.add_lines(lines, get_material("lines", gizmo), false)
 	else:
 		print("HUH")
