@@ -40,63 +40,68 @@ func _exit_tree() -> void:
 		_btn_remove.queue_free()
 		_btn_remove = null
 
-func _update_gizmo_neighbors(i_on_j_action : Callable, action_name : String = "action"):
-	var selection := EditorInterface.get_selection()
-	var nodes: Array = selection.get_selected_nodes()
+func _update_gizmo_neighbors(i_on_j_action: Callable, action_name: String) -> void:
+	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()
+	
 	var location_nodes : Array[Location] = []
 	location_nodes.assign(nodes.filter(func (x): return x is Location))
-	
+
+
 	if location_nodes.is_empty():
-		push_warning("Selection somehow doesn't have Location nodes")
+		push_warning("No Location nodes selected")
 		return
-	
 	if location_nodes.size() <= 1:
-		push_warning("Only one location selected")
+		push_warning("Select at least 2 Location nodes")
 		return
-			
-	var neighbors_array : Array[Array] = [] 
+
+	var before: Array[Array] = []
+	var after: Array[Array] = []
 	for loc in location_nodes:
-		neighbors_array.append(loc.neighbors.duplicate())
-	
-	for i in range(0,location_nodes.size()):
-		
-		for j in range(i,location_nodes.size()):
-			i_on_j_action.call(neighbors_array, location_nodes, i, j)
-			i_on_j_action.call(neighbors_array, location_nodes, j, i)
-	
-	print(neighbors_array)
-	print(nodes.map(func(x): return x.neighbors))
-	# Undo manager
-	get_undo_redo().create_action(action_name)
+		before.append(loc.neighbors.duplicate(true))
+		after.append(loc.neighbors.duplicate(true))
+
+	# Apply edits to "after" only (not the live nodes)
 	for i in range(location_nodes.size()):
-		get_undo_redo().add_do_property(location_nodes[i], "neighbors", neighbors_array[i])	
-		get_undo_redo().add_undo_property(location_nodes[i], "neighbors", location_nodes[i].neighbors)	
-	get_undo_redo().commit_action()
-	
-	for node in location_nodes:
-		node.update_gizmos()
-	
+		for j in range(i + 1, location_nodes.size()):
+			i_on_j_action.call(after, location_nodes, i, j)
+			i_on_j_action.call(after, location_nodes, j, i)
+
+	var ur := get_undo_redo()
+	ur.create_action(action_name)
+
+	for i in range(location_nodes.size()):
+		ur.add_do_property(location_nodes[i], "neighbors", after[i].duplicate(true))
+		ur.add_undo_property(location_nodes[i], "neighbors", before[i].duplicate(true))
+
+		ur.add_do_method(location_nodes[i], "update_gizmos")
+		ur.add_undo_method(location_nodes[i], "update_gizmos")
+
+	ur.commit_action()
+
 
 func _on_pressed() -> void:
-	var on_press_action = func(output_array : Array[Array], location_nodes: Array[Location], i : int, j : int): 
-		var node_i : Location = location_nodes[i]
-		var node_j : Location = location_nodes[j]
-		if node_i not in node_j.neighbors:
+	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int) -> void:
+		var node_i: Location = location_nodes[i]
+		var node_j: Location = location_nodes[j]
+		if node_i == node_j:
+			return
+		if output_array[j].find(node_i) == -1:
 			output_array[j].append(node_i)
-	
-	_update_gizmo_neighbors(on_press_action, "Connect Neighbors")
+
+	_update_gizmo_neighbors(action, "Connect Neighbors")
 
 
 func _on_pressed_disconnect() -> void:
-	var on_press_action = func(output_array : Array[Array], location_nodes: Array[Location], i : int, j : int): 
-		# Remove eachother as neighbors
-		var node_i : Location = location_nodes[i]
-		var node_j : Location = location_nodes[j]
-		var j_loc = node_i.neighbors.find(node_j)
-		if j_loc != -1: output_array[i].remove_at(j_loc)
-	
-	_update_gizmo_neighbors(on_press_action, "Disconnect Neighbors")
+	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int) -> void:
+		var node_i: Location = location_nodes[i]
+		var node_j: Location = location_nodes[j]
+		if node_i == node_j:
+			return
+		var idx := output_array[i].find(node_j)
+		if idx != -1:
+			output_array[i].remove_at(idx)
 
+	_update_gizmo_neighbors(action, "Disconnect Neighbors")
 
 func _selection_changed():
 	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()
