@@ -7,7 +7,6 @@ class_name Location
 
 @export var neighbors : Array[Location] = []
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_notify_transform(true)
