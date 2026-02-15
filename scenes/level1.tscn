@@ -12,7 +12,7 @@ neighbors = [NodePath("../l1")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994451, 0, 3.1473641)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1004002, -0.39055037, 3.14735)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
