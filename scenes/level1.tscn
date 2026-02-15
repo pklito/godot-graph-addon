@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cauglvsvoj43b"]
+
+[ext_resource type="Script" uid="uid://c6k1fi3nkut6s" path="res://scripts/grid/location.gd" id="1_g2h75"]
+
+[node name="Node3D" type="Node3D" unique_id=1897253162]
+
+[node name="Grid" type="Node3D" parent="." unique_id=986878862]
+
+[node name="main" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
+script = ExtResource("1_g2h75")
+neighbors = [NodePath("../l1")]
+metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
+
+[node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994451, 0, 3.1473641)
+script = ExtResource("1_g2h75")
+neighbors = [NodePath("../main")]
+metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
+
+[node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994451, 0, 0.3605392)
+script = ExtResource("1_g2h75")
+neighbors = [NodePath("../main")]
+metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
