@@ -3,9 +3,9 @@
 extends EditorPlugin
 
 
-const MyCustomGizmoPlugin = preload("custom_gizmo.gd")
-const MyCustomGizmoPlugin2 = preload("neighbor_lines.gd")
-const GroupPlugin = preload("GroupNeighborsPlugin.gd")
+const MyCustomGizmoPlugin = preload("icons_gizmo.gd")
+const MyCustomGizmoPlugin2 = preload("neighbor_lines_gizmo.gd")
+const GroupPlugin = preload("group_buttons.gd")
 
 var gizmo_plugin = MyCustomGizmoPlugin.new()
 var gizmo_plugin2 = MyCustomGizmoPlugin2.new()

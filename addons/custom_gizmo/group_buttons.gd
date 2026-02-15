@@ -1,7 +1,6 @@
 @tool
 extends EditorPlugin
 
-
 var _btn: Button
 var _btn_remove: Button
 
@@ -41,45 +40,62 @@ func _exit_tree() -> void:
 		_btn_remove.queue_free()
 		_btn_remove = null
 
-func _update_gizmo_neighbors(i_on_j_action : Callable):
+func _update_gizmo_neighbors(i_on_j_action : Callable, action_name : String = "action"):
 	var selection := EditorInterface.get_selection()
 	var nodes: Array = selection.get_selected_nodes()
-	var is_location = func (x): return x is Location
 	var location_nodes : Array[Location] = []
-	location_nodes.assign(nodes.filter(is_location))
-		
+	location_nodes.assign(nodes.filter(func (x): return x is Location))
+	
 	if location_nodes.is_empty():
-		printerr("Selection somehow doesn't have Location nodes")
+		push_warning("Selection somehow doesn't have Location nodes")
 		return
-		
+	
+	if location_nodes.size() <= 1:
+		push_warning("Only one location selected")
+		return
+			
+	var neighbors_array : Array[Array] = [] 
+	for loc in location_nodes:
+		neighbors_array.append(loc.neighbors.duplicate())
+	
 	for i in range(0,location_nodes.size()):
+		
 		for j in range(i,location_nodes.size()):
-			i_on_j_action.call(location_nodes, i, j)
-			i_on_j_action.call(location_nodes, j, i)
+			i_on_j_action.call(neighbors_array, location_nodes, i, j)
+			i_on_j_action.call(neighbors_array, location_nodes, j, i)
+	
+	print(neighbors_array)
+	print(nodes.map(func(x): return x.neighbors))
+	# Undo manager
+	get_undo_redo().create_action(action_name)
+	for i in range(location_nodes.size()):
+		get_undo_redo().add_do_property(location_nodes[i], "neighbors", neighbors_array[i])	
+		get_undo_redo().add_undo_property(location_nodes[i], "neighbors", location_nodes[i].neighbors)	
+	get_undo_redo().commit_action()
 	
 	for node in location_nodes:
 		node.update_gizmos()
 	
 
 func _on_pressed() -> void:
-	var on_press_action = func(location_nodes: Array[Location], i : int, j : int): 
+	var on_press_action = func(output_array : Array[Array], location_nodes: Array[Location], i : int, j : int): 
 		var node_i : Location = location_nodes[i]
 		var node_j : Location = location_nodes[j]
 		if node_i not in node_j.neighbors:
-			node_j.neighbors.append(node_i)
+			output_array[j].append(node_i)
 	
-	_update_gizmo_neighbors(on_press_action)
+	_update_gizmo_neighbors(on_press_action, "Connect Neighbors")
 
 
 func _on_pressed_disconnect() -> void:
-	var on_press_action = func(location_nodes: Array[Location], i : int, j : int): 
+	var on_press_action = func(output_array : Array[Array], location_nodes: Array[Location], i : int, j : int): 
 		# Remove eachother as neighbors
 		var node_i : Location = location_nodes[i]
 		var node_j : Location = location_nodes[j]
 		var j_loc = node_i.neighbors.find(node_j)
-		if j_loc != -1: node_i.neighbors.remove_at(j_loc)
+		if j_loc != -1: output_array[i].remove_at(j_loc)
 	
-	_update_gizmo_neighbors(on_press_action)
+	_update_gizmo_neighbors(on_press_action, "Disconnect Neighbors")
 
 
 func _selection_changed():
