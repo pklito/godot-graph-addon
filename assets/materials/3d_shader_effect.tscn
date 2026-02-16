@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cy1m5sp1j5bjj"]
+
+[ext_resource type="Shader" uid="uid://d0jhupxighojn" path="res://assets/materials/pixelate_screen.gdshader" id="1_dldew"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5jirj"]
+render_priority = 0
+shader = ExtResource("1_dldew")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vaxfo"]
+material = SubResource("ShaderMaterial_5jirj")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="3D Shader effect" type="MeshInstance3D" unique_id=926941631]
+transform = Transform3D(1, 0, 0, 0, -0.6904406, -0.7233891, 0, 0.7233891, -0.6904406, 0, 0, 0)
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+mesh = SubResource("QuadMesh_vaxfo")

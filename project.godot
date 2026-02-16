@@ -25,3 +25,10 @@ enabled=PackedStringArray("res://addons/custom_gizmo/plugin.cfg")
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+
+[shader_globals]
+
+apply_screen_shader={
+"type": "bool",
+"value": false
+}

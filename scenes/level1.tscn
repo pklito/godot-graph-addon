@@ -2,38 +2,72 @@
 
 [ext_resource type="Script" uid="uid://c6k1fi3nkut6s" path="res://scripts/grid/location.gd" id="1_g2h75"]
 [ext_resource type="Script" uid="uid://g1xr04wjyiyo" path="res://scenes/locations_manager.gd" id="1_wwpf4"]
+[ext_resource type="PackedScene" uid="uid://cy1m5sp1j5bjj" path="res://assets/materials/3d_shader_effect.tscn" id="3_m7ahb"]
 
-[node name="Node3D" type="Node3D" unique_id=1897253162]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wwpf4"]
+albedo_color = Color(0.20392157, 0.20392157, 0.23529412, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wwpf4"]
+material = SubResource("StandardMaterial3D_wwpf4")
+
+[sub_resource type="Environment" id="Environment_m7ahb"]
+background_mode = 2
+background_color = Color(0.31229225, 0.060913533, 0.1186794, 1)
+reflected_light_source = 1
+tonemap_mode = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_dwgg1"]
+
+[sub_resource type="Compositor" id="Compositor_ru4tf"]
+
+[node name="Game" type="Node" unique_id=1796976503]
 
 [node name="Grid" type="Node3D" parent="." unique_id=986878862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 script = ExtResource("1_wwpf4")
 
 [node name="main" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0005264282, 0, -0.008610249)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("../main2"), NodePath("../l2"), NodePath("../l3")]
+neighbors = [NodePath("../l3"), NodePath("../l2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.520495)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("."), NodePath("."), NodePath("../main"), NodePath("../l2"), NodePath("../l3")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l1")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0740263, -0.1625886, 2.8056576)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.074, 0, 2.806)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("."), NodePath("."), NodePath("../main2"), NodePath("../l2"), NodePath("../main"), NodePath("../l3")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l2"), NodePath("../main2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994503, 2.3841858e-07, -0.021325469)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994503, 0, -0.021325469)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("."), NodePath("."), NodePath("../main2"), NodePath("../main"), NodePath("../l3")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l1"), NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l3" type="Node3D" parent="Grid" unique_id=158473313 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07141173, 0, -1.7161691)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("../main2"), NodePath("../main"), NodePath("../l2")]
+neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
+
+[node name="Mesh" type="Node3D" parent="." unique_id=1185997514]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=1286670853]
+transform = Transform3D(2.4605408, 0, 0, 0, 1, 0, 0, 0, 2.8402123, 0, 0, 0.46419072)
+mesh = SubResource("PlaneMesh_wwpf4")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1953353033]
+
+[node name="3D Shader effect" parent="." unique_id=926941631 instance=ExtResource("3_m7ahb")]
+transform = Transform3D(1, 0, 0, 0, -0.6904406, -0.7233891, 0, 0.7233891, -0.6904406, 0, 1.8036715, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1707749618]
+environment = SubResource("Environment_m7ahb")
+camera_attributes = SubResource("CameraAttributesPractical_dwgg1")
+compositor = SubResource("Compositor_ru4tf")
