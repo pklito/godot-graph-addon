@@ -5,6 +5,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5jirj"]
 render_priority = 0
 shader = ExtResource("1_dldew")
+shader_parameter/pixel_size = 85.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_vaxfo"]
 material = SubResource("ShaderMaterial_5jirj")
