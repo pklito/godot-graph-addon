@@ -46,19 +46,19 @@ metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 [node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.7252574)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("."), NodePath("."), NodePath("../l1")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l1"), NodePath("../@Node3D@30187"), NodePath("../l2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2.7406852)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("."), NodePath("."), NodePath("../l2"), NodePath("../main2")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l2"), NodePath("../main2"), NodePath("../@Node3D@30187")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("."), NodePath("."), NodePath("../l1"), NodePath("../main")]
+neighbors = [NodePath("."), NodePath("."), NodePath("../l1"), NodePath("../main"), NodePath("../main2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l3" type="Node3D" parent="Grid" unique_id=158473313 node_paths=PackedStringArray("neighbors")]
@@ -66,6 +66,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07141173, 0, -1.7161691)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
+
+[node name="@Node3D@30187" type="Node3D" parent="Grid" unique_id=373680739 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.083025396, 0, 4.0847254)
+script = ExtResource("1_g2h75")
+neighbors = [NodePath("../main2"), NodePath("../l1")]
 
 [node name="Mesh" type="Node3D" parent="." unique_id=1185997514]
 
