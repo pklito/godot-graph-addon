@@ -3,7 +3,9 @@ extends EditorPlugin
 
 var _btn: Button
 var _btn_remove: Button
+var _btn_new: Button
 
+var _buttons: Array[Button] = []
 
 func _enter_tree():
 	EditorInterface.get_selection().selection_changed.connect(_selection_changed)
@@ -16,8 +18,12 @@ func _enter_tree():
 	_btn_remove.text = "DISCONNECT"
 	_btn_remove.pressed.connect(_on_pressed_disconnect)
 	
+	_btn_new = Button.new()
+	_btn_new.text = "NEW"
+	_btn_new.pressed.connect(_on_pressed_new)
+	_buttons = [_btn, _btn_remove, _btn_new]
 	var small_font_size := 11
-	for b in [_btn, _btn_remove]:
+	for b in _buttons:
 		b.flat = true
 		b.custom_minimum_size = Vector2(80, 20)
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -26,19 +32,17 @@ func _enter_tree():
 	# Adds to the main editor toolbar.
 	add_control_to_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn)
 	add_control_to_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn_remove)
+	add_control_to_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn_new)
 
 
 func _exit_tree():
 	EditorInterface.get_selection().selection_changed.disconnect(_selection_changed)
 	
-	if _btn:
-		remove_control_from_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn)
-		_btn.queue_free()
-		_btn = null
-	if _btn_remove:
-		remove_control_from_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn_remove)
-		_btn_remove.queue_free()
-		_btn_remove = null
+	for b in [_btn, _btn_new, _btn_remove]:
+		if b:
+			remove_control_from_container(CONTAINER_SPATIAL_EDITOR_MENU, b)
+			_btn.queue_free()
+			b = null
 
 func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callable, action_name: String):
 	
@@ -119,17 +123,47 @@ func _on_pressed_disconnect():
 	_update_gizmo_neighbors(neighbor_group, action, "Disconnect Neighbors (Singular)")
 	
 
+func _on_pressed_new():
+	var selected_nodes = EditorInterface.get_selection().get_selected_nodes()
+	
+	# Create new location
+	var new_location = Location.new()
+	get_editor_interface().get_edited_scene_root().add_child(new_location)
+	new_location.owner = get_editor_interface().get_edited_scene_root()
+	var count : int = 0
+	for node in selected_nodes:
+		if node is Node3D:
+			new_location.global_position += node.global_position
+			count += 1
+	
+	if count != 0:
+		new_location.global_position /= count
+	
+	# Essentially i assume every pair in the selection is called on this, but i only do the adding if its for the new node.
+	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int):
+		var node_i: Location = location_nodes[i]
+		if node_i != new_location and location_nodes[j] != new_location:
+			return
+		output_array[j].append(node_i)
+		
+	selected_nodes.append(new_location)
+	_update_gizmo_neighbors(selected_nodes, action, "New Location")
+	
+	# Make newly created node the selection
+	EditorInterface.get_selection().clear()
+	EditorInterface.get_selection().add_node(new_location)
+	
 
 func _selection_changed():
 	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()
 	for node in nodes:
 		if node is Location:
 			# if one found
-			_btn.visible = true
-			_btn_remove.visible = true
+			for b in _buttons:
+				b.visible = true
 			return
 	
 	# if no location found
-	_btn.visible = false
-	_btn_remove.visible = false
+	for b in _buttons:
+		b.visible = false
 	
