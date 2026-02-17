@@ -5,7 +5,7 @@ var _btn: Button
 var _btn_remove: Button
 
 
-func _enter_tree() -> void:
+func _enter_tree():
 	EditorInterface.get_selection().selection_changed.connect(_selection_changed)
 	_btn = Button.new()
 	_btn.text = "CONNECT"
@@ -28,7 +28,7 @@ func _enter_tree() -> void:
 	add_control_to_container(CONTAINER_SPATIAL_EDITOR_MENU, _btn_remove)
 
 
-func _exit_tree() -> void:
+func _exit_tree():
 	EditorInterface.get_selection().selection_changed.disconnect(_selection_changed)
 	
 	if _btn:
@@ -40,11 +40,10 @@ func _exit_tree() -> void:
 		_btn_remove.queue_free()
 		_btn_remove = null
 
-func _update_gizmo_neighbors(i_on_j_action: Callable, action_name: String) -> void:
-	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()
+func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callable, action_name: String):
 	
 	var location_nodes : Array[Location] = []
-	location_nodes.assign(nodes.filter(func (x): return x is Location))
+	location_nodes.assign(selected_nodes.filter(func (x): return x is Location))
 
 
 	if location_nodes.is_empty():
@@ -79,8 +78,8 @@ func _update_gizmo_neighbors(i_on_j_action: Callable, action_name: String) -> vo
 	ur.commit_action()
 
 
-func _on_pressed() -> void:
-	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int) -> void:
+func _on_pressed():
+	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int):
 		var node_i: Location = location_nodes[i]
 		var node_j: Location = location_nodes[j]
 		if node_i == node_j:
@@ -88,11 +87,11 @@ func _on_pressed() -> void:
 		if output_array[j].find(node_i) == -1:
 			output_array[j].append(node_i)
 
-	_update_gizmo_neighbors(action, "Connect Neighbors")
+	_update_gizmo_neighbors(EditorInterface.get_selection().get_selected_nodes(), action, "Connect Neighbors")
 
 
-func _on_pressed_disconnect() -> void:
-	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int) -> void:
+func _on_pressed_disconnect():
+	var action := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int):
 		var node_i: Location = location_nodes[i]
 		var node_j: Location = location_nodes[j]
 		if node_i == node_j:
@@ -100,8 +99,26 @@ func _on_pressed_disconnect() -> void:
 		var idx := output_array[i].find(node_j)
 		if idx != -1:
 			output_array[i].remove_at(idx)
+	
+	var selected_nodes = EditorInterface.get_selection().get_selected_nodes()
+	if selected_nodes.filter(func (x): return x is Location).size() != 1:
+		#default behavior, disconnect all neighbors in selection
+		_update_gizmo_neighbors(selected_nodes, action, "Disconnect Neighbors")
+		return
+	
+	# Remove all neighbors of the only selection.
+	var neighbor_group : Array[Node] = selected_nodes.filter(func (x): return x is Location)
+	var only_node : Location = neighbor_group[0] as Location
+	for loc in only_node.neighbors:
+		neighbor_group.append(loc)
+	
+	var action_singular := func(output_array: Array[Array], location_nodes: Array[Location], i: int, j: int):
+		if location_nodes[i] != only_node and location_nodes[j] != only_node: 
+			return
+		action.call(output_array, location_nodes, i, j)
+	_update_gizmo_neighbors(neighbor_group, action, "Disconnect Neighbors (Singular)")
+	
 
-	_update_gizmo_neighbors(action, "Disconnect Neighbors")
 
 func _selection_changed():
 	var nodes: Array = EditorInterface.get_selection().get_selected_nodes()
