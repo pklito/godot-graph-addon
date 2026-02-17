@@ -34,23 +34,29 @@ script = ExtResource("1_wwpf4")
 [node name="main" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0005264282, 0, -0.008610249)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l3"), NodePath("../l2")]
+neighbors = [NodePath("../l3"), NodePath("../l2"), NodePath("../main3")]
+metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
+
+[node name="main3" type="Node3D" parent="Grid" unique_id=813553240 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.238858, 0, -0.00858736)
+script = ExtResource("1_g2h75")
+neighbors = [NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.520495)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.7252574)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("."), NodePath("."), NodePath("../l1")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.074, 0, 2.806)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("."), NodePath("."), NodePath("../l2"), NodePath("../main2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0994503, 0, -0.021325469)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("."), NodePath("."), NodePath("../l1"), NodePath("../main")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
@@ -68,7 +74,7 @@ transform = Transform3D(2.4605408, 0, 0, 0, 1, 0, 0, 0, 2.8402123, 0, 0, 0.46419
 mesh = SubResource("PlaneMesh_wwpf4")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh" unique_id=94960350]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5487306, 0, 1.0192795)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0905757, 0, 1.0192795)
 mesh = SubResource("CylinderMesh_ru4tf")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Mesh" unique_id=863144361]
@@ -83,11 +89,11 @@ transform = Transform3D(0.7994848, 0.5764745, 0.16882342, 0.17415251, -0.4914258
 light_energy = 1.96
 
 [node name="Player" type="Node3D" parent="." unique_id=1953353033]
-transform = Transform3D(-0.9990383, 0, 0.04384605, 0, 1, 0, -0.04384605, 0, -0.9990383, 0, 0, -1.935807)
+transform = Transform3D(0.97303015, 0, -0.23067816, 0, 1, 0, 0.23067816, 0, 0.97303015, 0, 0, -1.935807)
 script = ExtResource("3_dwgg1")
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=444179748]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20828782, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.20828782, 0)
 current = true
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Player" unique_id=246656771]
