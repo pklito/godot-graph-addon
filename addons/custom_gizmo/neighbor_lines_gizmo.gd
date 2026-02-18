@@ -27,7 +27,7 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 		var lines = PackedVector3Array()
 		
 		for neighbor : Location in node3d.neighbors:
-			var offset := neighbor.global_position - node3d.global_position
+			var offset :=  node3d.to_local(neighbor.global_position)
 			var start := Vector3(0, 0.0, 0)
 			lines.push_back(lerp(start,offset,0.2))
 			lines.push_back(lerp(start,offset,0.8))
@@ -42,7 +42,6 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 				
 				
 				
-			
 		gizmo.add_lines(lines, get_material("lines", gizmo), false)
 	else:
 		print("HUH")
