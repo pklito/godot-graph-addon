@@ -44,7 +44,7 @@ func _exit_tree():
 			_btn.queue_free()
 			b = null
 
-func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callable, action_name: String):
+func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callable, action_name: String, do_action_once = null, undo_action_once = null):
 	
 	var location_nodes : Array[Location] = []
 	location_nodes.assign(selected_nodes.filter(func (x): return x is Location))
@@ -71,7 +71,10 @@ func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callab
 
 	var ur := get_undo_redo()
 	ur.create_action(action_name)
-
+	
+	if do_action_once:
+		do_action_once.call()
+	
 	for i in range(location_nodes.size()):
 		ur.add_do_property(location_nodes[i], "neighbors", after[i].duplicate(true))
 		ur.add_undo_property(location_nodes[i], "neighbors", before[i].duplicate(true))
@@ -79,6 +82,8 @@ func _update_gizmo_neighbors(selected_nodes : Array[Node], i_on_j_action: Callab
 		ur.add_do_method(location_nodes[i], "update_gizmos")
 		ur.add_undo_method(location_nodes[i], "update_gizmos")
 
+	if undo_action_once:
+		undo_action_once.call()
 	ur.commit_action()
 
 
@@ -120,7 +125,7 @@ func _on_pressed_disconnect():
 		if location_nodes[i] != only_node and location_nodes[j] != only_node: 
 			return
 		action.call(output_array, location_nodes, i, j)
-	_update_gizmo_neighbors(neighbor_group, action, "Disconnect Neighbors (Singular)")
+	_update_gizmo_neighbors(neighbor_group, action_singular, "Disconnect Neighbors (Singular)")
 	
 
 func _on_pressed_new():
@@ -129,7 +134,15 @@ func _on_pressed_new():
 	# Create new location
 	var new_location = Location.new()
 	get_editor_interface().get_edited_scene_root().add_child(new_location)
+	
 	new_location.owner = get_editor_interface().get_edited_scene_root()
+	var _add_node_ur := func ():
+		get_undo_redo().add_do_method(get_editor_interface().get_edited_scene_root(), "add_child", new_location )
+		get_undo_redo().add_do_property(new_location, "owner", get_editor_interface().get_edited_scene_root())
+	var _remove_node_ur := func ():
+		get_undo_redo().add_undo_method(new_location, "queue_free" )
+		get_editor_interface().get_edited_scene_root().remove_child(new_location)
+		
 	var count : int = 0
 	for node in selected_nodes:
 		if node is Node3D:
@@ -147,7 +160,7 @@ func _on_pressed_new():
 		output_array[j].append(node_i)
 		
 	selected_nodes.append(new_location)
-	_update_gizmo_neighbors(selected_nodes, action, "New Location")
+	_update_gizmo_neighbors(selected_nodes, action, "New Location", _add_node_ur, _remove_node_ur)
 	
 	# Make newly created node the selection
 	EditorInterface.get_selection().clear()
