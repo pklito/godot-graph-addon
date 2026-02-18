@@ -4,8 +4,10 @@ class_name Player
 @export var nearestLocation : Location
 
 @export var MOVE_SPEED : float = 1.8
-@export var MAX_SNAP_ANGLE : float = 40
-@export var MAX_TURN_ANGLE : float = 110
+@export var MAX_SNAP_ANGLE_WALK : float = 40
+@export var TURN_ANGLE_EXTRA : float = 30
+@export var TURN_ANGLE : float = 90
+
 
 
 
@@ -58,7 +60,7 @@ func _handle_inputs(delta : float):
 			printerr("No neighbors when pressing forward")
 			return
 			
-		if _min_angle > deg_to_rad(MAX_SNAP_ANGLE):
+		if _min_angle > deg_to_rad(MAX_SNAP_ANGLE_WALK):
 			push_warning("No neighbors facing this direction!")
 			return
 			
@@ -69,12 +71,12 @@ func _handle_inputs(delta : float):
 		print(_dict.keys() + _dict.values())
 		
 		
-	if Input.is_action_pressed("left"):
-		_yaw += 3 * delta
+	if Input.is_action_just_pressed("left"):
+		_yaw += deg_to_rad(TURN_ANGLE)
 		global_rotation.y = _yaw
 		
-	if Input.is_action_pressed("right"):
-		_yaw -= 3 * delta
+	if Input.is_action_just_pressed("right"):
+		_yaw -= deg_to_rad(TURN_ANGLE)
 		global_rotation.y = _yaw
 		
 
