@@ -3,7 +3,11 @@ class_name Player
 
 @export var nearestLocation : Location
 
-@export var MOVE_SPEED : float = 1
+@export var MOVE_SPEED : float = 1.8
+@export var MAX_SNAP_ANGLE : float = 40
+@export var MAX_TURN_ANGLE : float = 110
+
+
 
 var _currentLocation : Location = null
 var _nextLocation : Location = null
@@ -53,6 +57,11 @@ func _handle_inputs(delta : float):
 		if _min_loc == null:
 			printerr("No neighbors when pressing forward")
 			return
+			
+		if _min_angle > deg_to_rad(MAX_SNAP_ANGLE):
+			push_warning("No neighbors facing this direction!")
+			return
+			
 		
 		_nextLocation = _min_loc
 		_yaw = _dict[_min_loc]
