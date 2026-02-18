@@ -3,6 +3,8 @@ class_name Player
 
 @export var nearestLocation : Location
 
+@export var MOVE_SPEED : float = 1
+
 var _currentLocation : Location = null
 var _nextLocation : Location = null
 var _yaw : float = 0.0
@@ -36,8 +38,27 @@ func snapTo(location : Location):
 func _handle_inputs(delta : float):
 	if isMoving():
 		return
+		
+	var _dict : Dictionary[Location,float] = _currentLocation.getNeighborsMap()
+	
+	
 	if Input.is_action_just_pressed("forward"):
-		print(_currentLocation.getNeighborsMap().values().map(func ( x) : return rad_to_deg(Util.headingDistanceTo(_yaw, x))))
+		var _min_angle := TAU
+		var _min_loc : Location = null
+		for n in _dict.keys():
+			if abs(Util.headingDistanceTo(_yaw, _dict[n])) < _min_angle:
+				_min_angle = abs(Util.headingDistanceTo(_yaw, _dict[n]))
+				_min_loc = n
+		
+		if _min_loc == null:
+			printerr("No neighbors when pressing forward")
+			return
+		
+		_nextLocation = _min_loc
+		_yaw = _dict[_min_loc]
+		global_rotation.y = _yaw
+		print(_dict.keys() + _dict.values())
+		
 		
 	if Input.is_action_pressed("left"):
 		_yaw += 3 * delta
@@ -47,6 +68,16 @@ func _handle_inputs(delta : float):
 		_yaw -= 3 * delta
 		global_rotation.y = _yaw
 		
+
+func _physics_process(delta: float) -> void:
+	if isMoving():
+		var _move_vector :Vector3 = (_nextLocation.global_position - global_position)
+		if _move_vector.length_squared() <= pow(1 * delta * MOVE_SPEED, 2):
+			global_position = _nextLocation.global_position
+			_currentLocation = _nextLocation
+			return
+		
+		global_position += _move_vector.normalized() * delta * MOVE_SPEED
 
 func _calculateNearestLocation() -> Location:
 	var grid = $"../Grid"
