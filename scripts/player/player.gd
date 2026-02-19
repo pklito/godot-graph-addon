@@ -42,6 +42,22 @@ func snapTo(location : Location):
 	
 	global_position = _currentLocation.global_position
 
+func _turn_min(dict : Dictionary, clockwise : bool) -> float:
+	var angle_right := func (f) : 
+		var offset := Util.headingDistanceTo(_yaw, f)
+		offset = -offset if clockwise else offset
+		if offset < deg_to_rad(3):
+			return offset + TAU
+		return offset
+	var _min_loc : Location = Util.minValueInDict(dict, angle_right)
+	
+	var turn_angle = deg_to_rad(TURN_ANGLE)
+	var _min_angle = angle_right.call(dict[_min_loc])
+	_min_angle = -_min_angle if clockwise else _min_angle
+	if _min_loc and _min_angle < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
+		turn_angle = _min_angle
+	return turn_angle
+
 
 func _handle_inputs(delta : float):
 	if isMoving():
@@ -69,39 +85,20 @@ func _handle_inputs(delta : float):
 	if Input.is_action_just_pressed("left"):
 		if isSpinning():
 			return
-		var angle_right := func (f) : 
-			var offset := Util.headingDistanceTo(_yaw, f)
-			if offset < deg_to_rad(3):
-				return offset + TAU
-			return offset
-		var _min_loc : Location = Util.minValueInDict(_dict, angle_right)
-		
-		var turn_angle = deg_to_rad(TURN_ANGLE)
-		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
-			turn_angle = angle_right.call(_dict[_min_loc])
-		_targetYaw = _yaw + turn_angle
+		_targetYaw = _yaw + _turn_min(_dict, false)
 		
 	if Input.is_action_just_pressed("right"):
 		if isSpinning():
 			return
-		var angle_right := func (f) : 
-			var offset := -Util.headingDistanceTo(_yaw, f)
-			if offset < deg_to_rad(3):
-				return offset + TAU
-			return offset
-		var _min_loc : Location = Util.minValueInDict(_dict, angle_right)
-		
-		var turn_angle = -deg_to_rad(TURN_ANGLE)
-		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
-			turn_angle = angle_right.call(_dict[_min_loc])
-		_targetYaw = _yaw + turn_angle
+		_targetYaw = _yaw + _turn_min(_dict, true)
 		
 
 func _physics_process(delta: float) -> void:
 	if isSpinning():
-		if(abs(Util.headingDistanceTo(_yaw, _targetYaw)) < 2 * delta * 0.4):
+		var speed := 2
+		if(abs(Util.headingDistanceTo(_yaw, _targetYaw)) < 2 * delta * speed):
 			_yaw = _targetYaw
-		_yaw += delta * 0.4 * sign(Util.headingDistanceTo(_yaw, _targetYaw))
+		_yaw += delta * speed * sign(Util.headingDistanceTo(_yaw, _targetYaw))
 		global_rotation.y = _yaw
 
 	if isMoving():
