@@ -14,6 +14,7 @@ class_name Player
 var _currentLocation : Location = null
 var _nextLocation : Location = null
 var _yaw : float = 0.0
+var _targetYaw : float = 0.0
 func _ready() -> void:
 	
 	if nearestLocation == null:
@@ -31,6 +32,9 @@ func _process(delta: float) -> void:
 
 func isMoving() -> bool:
 	return _currentLocation != _nextLocation
+
+func isSpinning() -> bool:
+	return abs(_yaw - _targetYaw ) > 0.01
 
 func snapTo(location : Location):
 	_currentLocation = location
@@ -59,11 +63,12 @@ func _handle_inputs(delta : float):
 			
 		
 		_nextLocation = _min_loc
-		_yaw = _dict[_min_loc]
-		global_rotation.y = _yaw
+		_targetYaw = _dict[_min_loc]
 		
 		
 	if Input.is_action_just_pressed("left"):
+		if isSpinning():
+			return
 		var angle_right := func (f) : 
 			var offset := Util.headingDistanceTo(_yaw, f)
 			if offset < deg_to_rad(3):
@@ -74,10 +79,11 @@ func _handle_inputs(delta : float):
 		var turn_angle = deg_to_rad(TURN_ANGLE)
 		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
 			turn_angle = angle_right.call(_dict[_min_loc])
-		_yaw += turn_angle
-		global_rotation.y = _yaw
+		_targetYaw = _yaw + turn_angle
 		
 	if Input.is_action_just_pressed("right"):
+		if isSpinning():
+			return
 		var angle_right := func (f) : 
 			var offset := -Util.headingDistanceTo(_yaw, f)
 			if offset < deg_to_rad(3):
@@ -88,11 +94,16 @@ func _handle_inputs(delta : float):
 		var turn_angle = -deg_to_rad(TURN_ANGLE)
 		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
 			turn_angle = angle_right.call(_dict[_min_loc])
-		_yaw += turn_angle
-		global_rotation.y = _yaw
+		_targetYaw = _yaw + turn_angle
 		
 
 func _physics_process(delta: float) -> void:
+	if isSpinning():
+		if(abs(Util.headingDistanceTo(_yaw, _targetYaw)) < 2 * delta * 0.4):
+			_yaw = _targetYaw
+		_yaw += delta * 0.4 * sign(Util.headingDistanceTo(_yaw, _targetYaw))
+		global_rotation.y = _yaw
+
 	if isMoving():
 		var _move_vector :Vector3 = (_nextLocation.global_position - global_position)
 		if _move_vector.length_squared() <= pow(1 * delta * MOVE_SPEED, 2):
