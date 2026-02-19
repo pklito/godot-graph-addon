@@ -70,7 +70,7 @@ metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 [node name="@Node3D@30187" type="Node3D" parent="Grid" unique_id=373680739 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.083025396, 0, 4.0847254)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main2"), NodePath("../l1"), NodePath("../../@Node3D@28376"), NodePath("../../@Node3D@27087"), NodePath("../../@Node3D@32605")]
+neighbors = [NodePath("../main2"), NodePath("../l1"), NodePath("../../@Node3D@28376"), NodePath("../../@Node3D@27087")]
 
 [node name="Mesh" type="Node3D" parent="." unique_id=1185997514]
 
@@ -116,19 +116,19 @@ compositor = SubResource("Compositor_ru4tf")
 [node name="@Node3D@27087" type="Node3D" parent="." unique_id=1049356019 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.083025396, 0.2, 6.052621)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../Grid/@Node3D@30187"), NodePath("../@Node3D@28376"), NodePath("../@Node3D@32605")]
+neighbors = [NodePath("../Grid/@Node3D@30187"), NodePath("../@Node3D@28376")]
 
 [node name="@Node3D@28376" type="Node3D" parent="." unique_id=1715894772 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5343285, 0.2, 5.5222635)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../Grid/@Node3D@30187"), NodePath("../@Node3D@27087"), NodePath("../@Node3D@32605")]
+neighbors = [NodePath("../Grid/@Node3D@30187"), NodePath("../@Node3D@27087")]
 
 [node name="@Node3D@26310" type="Node3D" parent="." unique_id=1430754280 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1096888, 0.2, 2.7406852)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../Grid/l1")]
+neighbors = [NodePath("../Grid/l1"), NodePath("../@Node3D@19662")]
 
-[node name="@Node3D@32605" type="Node3D" parent="." unique_id=1449438187 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(0.6876215, 0.39016566, -0.6123296, 0.46309492, -0.8852155, -0.04400672, -0.5592136, -0.25330678, -0.7893771, -0.45609257, 1.6911752, 5.21987)
+[node name="@Node3D@19662" type="Node3D" parent="." unique_id=208922764 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1096888, 0.52407664, 1.053575)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../@Node3D@27087"), NodePath("../Grid/@Node3D@30187"), NodePath("../@Node3D@28376")]
+neighbors = [NodePath("../@Node3D@26310")]

@@ -22,10 +22,7 @@ func _ready() -> void:
 	snapTo(nearestLocation)
 	
 	_yaw = global_rotation.y
-	
 
-	print(_yaw)
-	print(_currentLocation.getNeighborsMap())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -41,25 +38,21 @@ func snapTo(location : Location):
 	
 	global_position = _currentLocation.global_position
 
+
 func _handle_inputs(delta : float):
 	if isMoving():
 		return
 		
 	var _dict : Dictionary[Location,float] = _currentLocation.getNeighborsMap()
 	
-	
 	if Input.is_action_just_pressed("forward"):
-		var _min_angle := TAU
-		var _min_loc : Location = null
-		for n in _dict.keys():
-			if abs(Util.headingDistanceTo(_yaw, _dict[n])) < _min_angle:
-				_min_angle = abs(Util.headingDistanceTo(_yaw, _dict[n]))
-				_min_loc = n
-		
+		var angle_dist := func (f) : return abs(Util.headingDistanceTo(_yaw, f))
+		var _min_loc : Location = Util.minValueInDict(_dict, angle_dist)
 		if _min_loc == null:
 			printerr("No neighbors when pressing forward")
 			return
 			
+		var _min_angle = angle_dist.call(_dict[_min_loc])
 		if _min_angle > deg_to_rad(MAX_SNAP_ANGLE_WALK):
 			push_warning("No neighbors facing this direction!")
 			return
@@ -68,15 +61,34 @@ func _handle_inputs(delta : float):
 		_nextLocation = _min_loc
 		_yaw = _dict[_min_loc]
 		global_rotation.y = _yaw
-		print(_dict.keys() + _dict.values())
 		
 		
 	if Input.is_action_just_pressed("left"):
-		_yaw += deg_to_rad(TURN_ANGLE)
+		var angle_right := func (f) : 
+			var offset := Util.headingDistanceTo(_yaw, f)
+			if offset < deg_to_rad(3):
+				return offset + TAU
+			return offset
+		var _min_loc : Location = Util.minValueInDict(_dict, angle_right)
+		
+		var turn_angle = deg_to_rad(TURN_ANGLE)
+		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
+			turn_angle = angle_right.call(_dict[_min_loc])
+		_yaw += turn_angle
 		global_rotation.y = _yaw
 		
 	if Input.is_action_just_pressed("right"):
-		_yaw -= deg_to_rad(TURN_ANGLE)
+		var angle_right := func (f) : 
+			var offset := -Util.headingDistanceTo(_yaw, f)
+			if offset < deg_to_rad(3):
+				return offset + TAU
+			return offset
+		var _min_loc : Location = Util.minValueInDict(_dict, angle_right)
+		
+		var turn_angle = -deg_to_rad(TURN_ANGLE)
+		if _min_loc and angle_right.call(_dict[_min_loc]) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
+			turn_angle = angle_right.call(_dict[_min_loc])
+		_yaw += turn_angle
 		global_rotation.y = _yaw
 		
 

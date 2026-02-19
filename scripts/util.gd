@@ -13,3 +13,15 @@ static func headingDistanceTo(angle_base : float, angle_target : float) -> float
 		return TAU-(a1 - a2)
 	return a2 - a1
 	
+
+## returns the key which has the value of the smalles value, based on the given metric
+static func minValueInDict(dict : Dictionary, metric : Callable = func(x) : return x) -> Variant:
+	var _min_value = 100000000
+	var _min_key = null
+	for k in dict.keys():
+		var k_val =  metric.call(dict[k])
+		print("search, %s %s" % [k_val, k])
+		if k_val < _min_value:
+			_min_value = k_val
+			_min_key = k
+	return _min_key
