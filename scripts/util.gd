@@ -7,11 +7,7 @@ static func headingToNode3D(from : Node3D, to : Node3D) -> float:
 
 
 static func headingDistanceTo(angle_base : float, angle_target : float) -> float:
-	var a1 = fposmod(angle_base, TAU) 
-	var a2 = fposmod(angle_target, TAU)
-	if abs(a2 - a1)  > PI:
-		return TAU-(a1 - a2)
-	return a2 - a1
+	return fposmod(angle_target - angle_base + PI, TAU) - PI
 	
 
 ## returns the key which has the value of the smalles value, based on the given metric

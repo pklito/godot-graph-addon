@@ -54,7 +54,9 @@ func _turn_min(dict : Dictionary, clockwise : bool) -> float:
 	var turn_angle = deg_to_rad(TURN_ANGLE)
 	var _min_angle = angle_right.call(dict[_min_loc])
 	_min_angle = -_min_angle if clockwise else _min_angle
-	if _min_loc and _min_angle < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
+	turn_angle = -turn_angle if clockwise else turn_angle
+	
+	if _min_loc and abs(_min_angle) < deg_to_rad(TURN_ANGLE + TURN_ANGLE_EXTRA):
 		turn_angle = _min_angle
 	return turn_angle
 

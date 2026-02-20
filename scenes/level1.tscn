@@ -31,40 +31,40 @@ script = ExtResource("1_ru4tf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 script = ExtResource("1_wwpf4")
 
-[node name="main" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
+[node name="center" type="Node3D" parent="Grid" unique_id=1254603548 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0005264282, 0, -0.008610249)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l3"), NodePath("../l2"), NodePath("../main3")]
+neighbors = [NodePath("../main"), NodePath("../right"), NodePath("../left")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="main3" type="Node3D" parent="Grid" unique_id=813553240 node_paths=PackedStringArray("neighbors")]
+[node name="left" type="Node3D" parent="Grid" unique_id=813553240 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.238858, 0, -0.00858736)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main")]
+neighbors = [NodePath("../center")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.7252574)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("../@Node3D@30187"), NodePath("../l2")]
+neighbors = [NodePath("../l1"), NodePath("../@Node3D@30187"), NodePath("../right")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="l1" type="Node3D" parent="Grid" unique_id=2106091860 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2.7406852)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l2"), NodePath("../main2"), NodePath("../@Node3D@30187"), NodePath("../../@Node3D@26310")]
+neighbors = [NodePath("../right"), NodePath("../main2"), NodePath("../@Node3D@30187"), NodePath("../../@Node3D@26310")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="l2" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
+[node name="right" type="Node3D" parent="Grid" unique_id=1591604365 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../l1"), NodePath("../main"), NodePath("../main2")]
+neighbors = [NodePath("../l1"), NodePath("../center"), NodePath("../main2")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
-[node name="l3" type="Node3D" parent="Grid" unique_id=158473313 node_paths=PackedStringArray("neighbors")]
+[node name="main" type="Node3D" parent="Grid" unique_id=158473313 node_paths=PackedStringArray("neighbors")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07141173, 0, -1.7161691)
 script = ExtResource("1_g2h75")
-neighbors = [NodePath("../main")]
+neighbors = [NodePath("../center")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="@Node3D@30187" type="Node3D" parent="Grid" unique_id=373680739 node_paths=PackedStringArray("neighbors")]
