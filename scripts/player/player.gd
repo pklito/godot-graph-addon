@@ -3,8 +3,12 @@ class_name Player
 
 @export var nearestLocation : Location
 
+@export_category("Move")
 @export var MOVE_SPEED : float = 1.8
 @export var MAX_SNAP_ANGLE_WALK : float = 40
+
+@export_category("Turn")
+@export var TURN_SPEED := 3
 @export var TURN_ANGLE_EXTRA : float = 30
 @export var TURN_ANGLE : float = 90
 
@@ -97,7 +101,7 @@ func _handle_inputs(delta : float):
 
 func _physics_process(delta: float) -> void:
 	if isSpinning():
-		var speed := 2
+		var speed := TURN_SPEED
 		if(abs(Util.headingDistanceTo(_yaw, _targetYaw)) < 2 * delta * speed):
 			_yaw = _targetYaw
 		_yaw += delta * speed * sign(Util.headingDistanceTo(_yaw, _targetYaw))

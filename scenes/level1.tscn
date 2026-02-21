@@ -44,7 +44,7 @@ neighbors = [NodePath("../center")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"
 
 [node name="main2" type="Node3D" parent="Grid" unique_id=1090941063 node_paths=PackedStringArray("neighbors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1660508, 0, 2.7252574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4919865, 0, 2.7252574)
 script = ExtResource("1_g2h75")
 neighbors = [NodePath("../l1"), NodePath("../@Node3D@30187"), NodePath("../right")]
 metadata/_custom_type_script = "uid://c6k1fi3nkut6s"

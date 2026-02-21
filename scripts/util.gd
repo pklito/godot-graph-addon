@@ -16,9 +16,7 @@ static func minValueInDict(dict : Dictionary, metric : Callable = func(x) : retu
 	var _min_key = null
 	for k in dict.keys():
 		var k_val =  metric.call(dict[k])
-		print("search, %s %s" % [rad_to_deg(k_val), k])
 		if k_val < _min_value:
 			_min_value = k_val
 			_min_key = k
-	print("done")
 	return _min_key

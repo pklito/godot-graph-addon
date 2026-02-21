@@ -1,4 +1,11 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://dxbqvhttqwlw7"]
 
+[ext_resource type="Shader" uid="uid://drorkvufrsrsi" path="res://assets/materials/pass_2.gdshader" id="1_d24fq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2oji5"]
+render_priority = 0
+shader = ExtResource("1_d24fq")
+
 [resource]
+next_pass = SubResource("ShaderMaterial_2oji5")
 albedo_color = Color(0.20392157, 0.20392157, 0.23529412, 1)
