@@ -1,6 +1,7 @@
+
 Built for Godot 4.8
 This is a godot extension that visualizes nodes and allows you to easily make connected non-directed graphs.
-
+<img width="480" height="262" alt="godot editor" src="https://github.com/user-attachments/assets/01226574-93ee-4ada-8817-7495d6337f5f" />
 ## Bidirectional spacial graph editor
 Experimental godot extention for traversable path-tied maps.
 This project has a simple character controller that moves on a predefined graph.
