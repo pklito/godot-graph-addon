@@ -6,10 +6,14 @@ func _get_gizmo_name() -> String:
 
 func _init() -> void:
 	
-	create_material("lines", Color(0.669, 0.761, 0.984, 1.0))
+	create_material("lines", Color(0.0, 0.761, 0.984, 1.0))
 	
 	
 	create_material("sphere", Color(0.2, 0.71, 0.984, 1.0))
+
+	for mat_name in ["lines", "sphere"]:
+		var mat := get_material(mat_name) as StandardMaterial3D
+		mat.render_priority = 126  # max; clamped to -128..127
 	
 
 
@@ -42,7 +46,8 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 				lines.push_back(lerp(start,offset,s - (i + 1) * line_length ))
 				
 				
-				
-		gizmo.add_lines(lines, get_material("lines", gizmo), false)
+		var mat := get_material("lines", gizmo);
+		mat.render_priority = 126;
+		gizmo.add_lines(lines, mat, false)
 	else:
 		print("HUH")
