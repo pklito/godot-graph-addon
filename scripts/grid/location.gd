@@ -23,3 +23,11 @@ func _notification(what: int) -> void:
 			update_gizmos()
 			for loc in neighbors:
 				loc.update_gizmos()
+
+var _angleToNeighbors : Dictionary[Location, float] = {}
+
+func getNeighborsMap() -> Dictionary[Location, float]:
+	if _angleToNeighbors.is_empty():
+		for neighbor in neighbors:
+			_angleToNeighbors[neighbor] = Util.headingToNode3D(self, neighbor)
+	return _angleToNeighbors
