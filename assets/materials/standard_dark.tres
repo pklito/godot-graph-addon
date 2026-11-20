@@ -8,4 +8,4 @@ shader = ExtResource("1_d24fq")
 
 [resource]
 next_pass = SubResource("ShaderMaterial_2oji5")
-albedo_color = Color(0.20392157, 0.20392157, 0.23529412, 1)
+albedo_color = Color(0.12461939, 0.27791744, 0, 1)

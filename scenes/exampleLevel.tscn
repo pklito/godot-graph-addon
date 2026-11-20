@@ -1,0 +1,270 @@
+[gd_scene format=3 uid="uid://dsn4c3528i3st"]
+
+[ext_resource type="Script" uid="uid://klwkoyh0vync" path="res://scripts/game/game.gd" id="1_u6607"]
+[ext_resource type="Script" uid="uid://g1xr04wjyiyo" path="res://scenes/locations_manager.gd" id="2_xivol"]
+[ext_resource type="Script" uid="uid://c6k1fi3nkut6s" path="res://scripts/grid/location.gd" id="3_dyplj"]
+[ext_resource type="Material" uid="uid://dxbqvhttqwlw7" path="res://assets/materials/standard_dark.tres" id="4_xwy82"]
+[ext_resource type="Script" uid="uid://bkrdvww3lpcar" path="res://scripts/player/player.gd" id="5_jgqhb"]
+[ext_resource type="Shader" uid="uid://drorkvufrsrsi" path="res://assets/materials/pass_2.gdshader" id="5_xivol"]
+[ext_resource type="PackedScene" uid="uid://cy1m5sp1j5bjj" path="res://assets/materials/3d_shader_effect.tscn" id="6_wwrdh"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wwpf4"]
+material = ExtResource("4_xwy82")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2oji5"]
+render_priority = 0
+shader = ExtResource("5_xivol")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyplj"]
+next_pass = SubResource("ShaderMaterial_2oji5")
+albedo_color = Color(0.017167985, 0.06837995, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xwy82"]
+material = SubResource("StandardMaterial3D_dyplj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xivol"]
+next_pass = SubResource("ShaderMaterial_2oji5")
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dyplj"]
+material = SubResource("StandardMaterial3D_xivol")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtfj4"]
+albedo_color = Color(0.1944, 0.22199997, 0.36, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_apyxu"]
+material = SubResource("StandardMaterial3D_xtfj4")
+size = Vector3(0.2, 0.7, 2.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xwy82"]
+albedo_color = Color(0.3882353, 0, 0.02745098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jgqhb"]
+material = SubResource("StandardMaterial3D_xwy82")
+size = Vector3(0.2, 0.7, 2.3)
+
+[sub_resource type="Environment" id="Environment_m7ahb"]
+background_mode = 1
+background_color = Color(0.10478068, 0.5179297, 0.7724199, 1)
+background_energy_multiplier = 1.33
+ambient_light_source = 2
+ambient_light_energy = 10.05
+reflected_light_source = 1
+tonemap_mode = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_dwgg1"]
+
+[sub_resource type="Compositor" id="Compositor_ru4tf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqbel"]
+albedo_color = Color(0.74, 0.73371005, 0.3626, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_apyxu"]
+material = SubResource("StandardMaterial3D_dqbel")
+height = 2.182129
+
+[node name="Game" type="Node" unique_id=1796976503]
+script = ExtResource("1_u6607")
+
+[node name="Grid" type="Node3D" parent="." unique_id=986878862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("2_xivol")
+
+[node name="@Node3D@27087" type="Node3D" parent="Grid" unique_id=1049356019 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.011810765, 0, -1.878615)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../../@Node3D@77988")]
+
+[node name="Mesh" type="Node3D" parent="." unique_id=1185997514]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=1286670853]
+transform = Transform3D(9.277544, 0, 0, 0, 3.7705305, 0, 0, 0, 10.6384735, 0, 0, 0.46419072)
+mesh = SubResource("PlaneMesh_wwpf4")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Mesh" unique_id=676437060]
+transform = Transform3D(0.60421675, 0, 0, 0, 20.708664, 0, 0, 0, -1.1241862, 0, 0.010694265, -1.4321746)
+mesh = SubResource("PlaneMesh_xwy82")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Mesh" unique_id=989373418]
+transform = Transform3D(2.9797854, 0, 0, 0, 20.708664, 0, 0, 0, -1.7854567, 0, 0.010694265, 1.4632092)
+mesh = SubResource("PlaneMesh_xwy82")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Mesh" unique_id=649261955]
+transform = Transform3D(0.9997111, 0, 0.7256598, 0, 20.708664, 0, 1.058027, 0, -0.68566316, 3.2102196, 0.010694265, 2.4578695)
+mesh = SubResource("PlaneMesh_xwy82")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Mesh" unique_id=1714455509]
+transform = Transform3D(4.452188, 0, -0.034283128, 0, 20.63194, 0, -0.23032017, 0, -0.6627076, -0.32727218, 0.010694265, 5.850641)
+mesh = SubResource("PlaneMesh_dyplj")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Mesh" unique_id=50237706]
+transform = Transform3D(0.67830366, 0, -0.11111689, 0, 20.63194, 0, -0.03508994, 0, -2.1479373, -4.2832994, 0.010694265, 6.0278306)
+mesh = SubResource("PlaneMesh_dyplj")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="Mesh" unique_id=2135337645]
+transform = Transform3D(0.3726342, 0, -0.11111689, 0, 20.63194, 0, -0.019277077, 0, -2.1479373, -4.497962, 0.010694265, 1.8783112)
+mesh = SubResource("PlaneMesh_dyplj")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="Mesh" unique_id=747103611]
+transform = Transform3D(0.6385445, 0, -0.015439009, 0, 20.63194, 0, -0.033033125, 0, -0.2984427, -3.5972838, 0.010694265, 0.17594531)
+mesh = SubResource("PlaneMesh_xwy82")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="Mesh" unique_id=854774219]
+transform = Transform3D(0.67830366, 0, -0.11111689, 0, 20.63194, 0, -0.03508994, 0, -2.1479373, 3.9435205, 0.018345356, 5.427822)
+mesh = SubResource("PlaneMesh_dyplj")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Mesh" unique_id=98509978]
+transform = Transform3D(0.48499572, 0, 0, 0, 20.708664, 0, 0, 0, -1.083784, 1.916631, 0.010694265, -1.3484459)
+mesh = SubResource("PlaneMesh_xwy82")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Mesh" unique_id=225431484]
+transform = Transform3D(0.7994848, 0.5764745, 0.16882342, 0.17415251, -0.49142584, 0.85332984, 0.574887, -0.6528231, -0.49328193, 2.31422, 2.5160053, 0)
+light_energy = 1.96
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh" unique_id=842761213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6689041, 0.35524198, -1.4537938)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mesh" unique_id=738872898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6310958, 0.35524198, -1.4537938)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Mesh" unique_id=1465989958]
+transform = Transform3D(-4.371139e-08, 0, -0.641239, 0, 1, 0, 1, 0, -2.8029444e-08, -0.015186876, 0.35, -2.65)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="Mesh" unique_id=650492330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4112236, 0.3534945, -1.4625225)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="Mesh" unique_id=816326564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4511025, 0.3534945, -1.4625225)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D19" type="MeshInstance3D" parent="Mesh" unique_id=851199771]
+transform = Transform3D(-4.371139e-08, 0, -0.51787984, 0, 1, 0, 1, 0, -2.2637245e-08, 1.9362191, 0.3482525, -2.5064688)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D28" type="MeshInstance3D" parent="Mesh" unique_id=530657339]
+transform = Transform3D(-7.8207876e-08, 0, -0.20442647, 0, 0.44874382, 0, 1.7891877, 0, -8.935763e-09, 1.9362191, 0.16305241, -2.140268)
+mesh = SubResource("BoxMesh_jgqhb")
+
+[node name="MeshInstance3D20" type="MeshInstance3D" parent="Mesh" unique_id=1031423467]
+transform = Transform3D(-4.371139e-08, 0, -0.40678385, 0, 1, 0, 1, 0, -1.7781085e-08, 1.039776, 0.35460135, -0.41069824)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D23" type="MeshInstance3D" parent="Mesh" unique_id=1303329904]
+transform = Transform3D(-4.371139e-08, 0, -1.0174663, 0, 1, 0, 1, 0, -4.447486e-08, -1.8096308, 0.35460135, -0.41069835)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D21" type="MeshInstance3D" parent="Mesh" unique_id=1876597015]
+transform = Transform3D(-4.371139e-08, 0, -0.33590665, 0, 1, 0, 1, 0, -1.46829455e-08, 2.7454379, 0.35549715, -0.41069815)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D22" type="MeshInstance3D" parent="Mesh" unique_id=849701975]
+transform = Transform3D(-1, 0, 4.6493017e-08, 0, 1, 0, -8.742278e-08, 0, -0.53181815, 3.023775, 0.35549715, 0.2044066)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="Mesh" unique_id=419278841]
+transform = Transform3D(-4.371139e-08, 0, -2.3575966, 0, 1, 0, 1, 0, -1.03053814e-07, -0.20143603, 0.35, 3.266838)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D26" type="MeshInstance3D" parent="Mesh" unique_id=385027931]
+transform = Transform3D(-0.64479727, 0, -0.33941782, 0, 1, 0, 0.7643537, 0, -0.28632772, 2.836924, 0.35, 3.571406)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D27" type="MeshInstance3D" parent="Mesh" unique_id=1722162966]
+transform = Transform3D(-0.99642015, 0, -0.043023147, 0, 1, 0, 0.084539145, 0, -0.50709164, 3.2510571, 0.35, 4.4200573)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D24" type="MeshInstance3D" parent="Mesh" unique_id=2025290408]
+transform = Transform3D(-5.6929963e-07, 0, -0.062580265, 0, 1, 0, 13.024057, 0, -2.73547e-09, -2.8823295, 0.35, 1.8736129)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="Mesh" unique_id=1681526919]
+transform = Transform3D(1, 0, 3.971957e-15, 0, 1, 0, 0, 0, 1.3179041, 4.614749, 0.35, 4.6202993)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="Mesh" unique_id=625467786]
+transform = Transform3D(0.70710677, 0, 0.9112266, 0, 1, 0, -0.70710677, 0, 0.9112266, 3.9276624, 0.35, 1.7695371)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="MeshInstance3D25" type="MeshInstance3D" parent="Mesh" unique_id=1749606650]
+transform = Transform3D(2.1427834, 0, 0.063586794, 0, 1, 0, -2.1427834, 0, 0.063586794, 4.8087335, 0.35, 2.9622874)
+mesh = SubResource("BoxMesh_apyxu")
+
+[node name="Player" type="Node3D" parent="." unique_id=1953353033]
+transform = Transform3D(0.97303015, 0, -0.23067816, 0, 1, 0, 0.23067816, 0, 0.97303015, 0.82611805, 0, -5.4204793)
+script = ExtResource("5_jgqhb")
+
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=444179748]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.20828782, 0)
+current = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Player" unique_id=246656771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
+light_energy = 4.0
+omni_range = 2.091
+omni_attenuation = 0.012
+
+[node name="3D Shader effect" parent="." unique_id=926941631 instance=ExtResource("6_wwrdh")]
+transform = Transform3D(1, 0, 0, 0, -0.6904406, -0.7233891, 0, 0.7233891, -0.6904406, 9.61932, 1.8036715, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1707749618]
+environment = SubResource("Environment_m7ahb")
+camera_attributes = SubResource("CameraAttributesPractical_dwgg1")
+compositor = SubResource("Compositor_ru4tf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=330881532]
+transform = Transform3D(1.3087776, 0, 0, 0, 0.4227671, 0, 0, 0, 1.3087776, -1.7515591, 0.49209583, 2.3225713)
+mesh = SubResource("CylinderMesh_apyxu")
+
+[node name="@Node3D@77988" type="Node3D" parent="." unique_id=2022464927 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.011810765, 0.2, 0.60211337)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../Grid/@Node3D@27087"), NodePath("../@Node3D@77989"), NodePath("../@Node3D@77992"), NodePath("../@Node3D@77996")]
+
+[node name="@Node3D@77989" type="Node3D" parent="." unique_id=300683240 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9568079, 0.2, 0.60211337)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77988"), NodePath("../@Node3D@77990"), NodePath("../@Node3D@77991")]
+
+[node name="@Node3D@77990" type="Node3D" parent="." unique_id=2035616559 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9568079, 0.2, -1.7082301)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77989")]
+
+[node name="@Node3D@77991" type="Node3D" parent="." unique_id=2132977346 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9568079, 0.2, 2.4066772)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77989"), NodePath("../@Node3D@77993")]
+
+[node name="@Node3D@77992" type="Node3D" parent="." unique_id=732141307 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16363716, 0.2, 2.4620478)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77988")]
+
+[node name="@Node3D@77993" type="Node3D" parent="." unique_id=1102699093 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8653176, 0.2, 2.4066772)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77991"), NodePath("../@Node3D@77994")]
+
+[node name="@Node3D@77994" type="Node3D" parent="." unique_id=519684930 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8653176, 0.2, 5.3651094)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77993"), NodePath("../@Node3D@77995")]
+
+[node name="@Node3D@77995" type="Node3D" parent="." unique_id=1768812123 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.030508, 0.2, 5.3651094)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77994"), NodePath("../@Node3D@77997")]
+
+[node name="@Node3D@77996" type="Node3D" parent="." unique_id=1656028180 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2481704, 0.2, 0.08752644)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77988"), NodePath("../@Node3D@77997")]
+
+[node name="@Node3D@77997" type="Node3D" parent="." unique_id=570472329 node_paths=PackedStringArray("neighbors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1393394, 0.2, 2.726318)
+script = ExtResource("3_dyplj")
+neighbors = [NodePath("../@Node3D@77996"), NodePath("../@Node3D@77995")]
