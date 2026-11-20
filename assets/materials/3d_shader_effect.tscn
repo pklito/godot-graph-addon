@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://d0jhupxighojn" path="res://assets/materials/pixelate_screen.gdshader" id="1_dldew"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5jirj"]
-render_priority = 0
+render_priority = 127
 shader = ExtResource("1_dldew")
 shader_parameter/pixel_size = 85.0
 
